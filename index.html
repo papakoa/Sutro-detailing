@@ -157,16 +157,17 @@
         <div class="field"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" required></div>
       </div>
       <div class="field"><label for="vehicle">Vehicle (year / make / model)</label><input type="text" id="vehicle" name="vehicle" placeholder="e.g. 2019 Honda Civic" required></div>
+      <div class="field">
+        <label for="service">Service</label>
+        <select id="service" name="service">
+          <option>Basic — $75</option>
+          <option>Premium — $150</option>
+          <option>Deluxe — $200</option>
+        </select>
+      </div>
       <div class="two-col">
-        <div class="field">
-          <label for="service">Service</label>
-          <select id="service" name="service">
-            <option>Basic — $75</option>
-            <option>Premium — $150</option>
-            <option>Deluxe — $200</option>
-          </select>
-        </div>
         <div class="field"><label for="date">Preferred date</label><input type="date" id="date" name="date"></div>
+        <div class="field"><label for="time">Preferred time</label><input type="time" id="time" name="time"></div>
       </div>
       <div class="field"><label for="notes">Location / notes</label><textarea id="notes" name="notes" placeholder="Address for the appointment, gate code, anything we should know"></textarea></div>
       <input type="hidden" name="_subject" value="New Sutro Detailing booking request">
