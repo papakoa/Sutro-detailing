@@ -1,3 +1,6 @@
+
+
+Index · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +25,7 @@
   body{font-family:'Inter',sans-serif;background:var(--warm-white);color:var(--graphite);line-height:1.5;}
   h1,h2,h3{font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.02em;}
   a{color:inherit;text-decoration:none;}
-
+ 
   .hero{background:var(--graphite);color:var(--warm-white);min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding:8vh 6vw;position:relative;overflow:hidden;}
   .hero::before{content:"";position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 80% 10%, rgba(200,16,46,0.12), transparent 55%);pointer-events:none;}
   .eyebrow{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--chrome-dim);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem;}
@@ -39,12 +42,17 @@
   .btn-primary:hover{background:#e01238;}
   .btn-ghost{border-color:var(--chrome-dim);color:var(--warm-white);}
   .btn-ghost:hover{border-color:var(--warm-white);}
-
+ 
   section{padding:7rem 6vw;}
   .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;margin-bottom:3.5rem;flex-wrap:wrap;border-bottom:1px solid rgba(20,23,26,0.15);padding-bottom:1.5rem;}
   .section-head h2{font-size:clamp(1.8rem,4vw,2.8rem);}
   .section-head .tag{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--chrome-dim);letter-spacing:0.1em;}
-
+ 
+  .size-toggle{display:flex;gap:0.6rem;margin-bottom:2.5rem;flex-wrap:wrap;}
+  .size-btn{font-family:'JetBrains Mono',monospace;font-size:0.85rem;letter-spacing:0.05em;text-transform:uppercase;padding:0.7rem 1.4rem;border-radius:3px;border:1.5px solid var(--slate-line);background:transparent;color:var(--graphite);cursor:pointer;transition:all 0.15s ease;}
+  .size-btn.active{background:var(--graphite);color:var(--warm-white);border-color:var(--graphite);}
+  .size-btn:hover:not(.active){border-color:var(--graphite);}
+ 
   .tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
   @media (max-width:900px){.tier-grid{grid-template-columns:1fr;}}
   .tier{background:var(--graphite);color:var(--warm-white);border-radius:6px;padding:2.4rem 2rem;display:flex;flex-direction:column;position:relative;border:1px solid var(--slate-line);}
@@ -59,7 +67,16 @@
   .tier .btn{width:100%;justify-content:center;background:transparent;border:1.5px solid var(--chrome-dim);}
   .tier.featured .btn{background:var(--wax-red);border-color:var(--wax-red);}
   .tier .btn:hover{background:var(--wax-red);border-color:var(--wax-red);}
-
+ 
+  .addons{margin-top:3rem;padding-top:2.5rem;border-top:1px solid rgba(20,23,26,0.15);}
+  .addons h3{font-size:1.1rem;margin-bottom:1.2rem;color:var(--chrome-dim);letter-spacing:0.05em;}
+  .addon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;}
+  @media (max-width:600px){.addon-grid{grid-template-columns:1fr;}}
+  .addon{display:flex;justify-content:space-between;align-items:center;background:var(--graphite);color:var(--warm-white);border:1px solid var(--slate-line);border-radius:6px;padding:1.2rem 1.4rem;}
+  .addon .addon-name{font-size:0.95rem;}
+  .addon .addon-note{display:block;font-size:0.8rem;color:var(--chrome-dim);margin-top:0.2rem;}
+  .addon .addon-price{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--wax-red);font-size:1.1rem;white-space:nowrap;margin-left:1rem;}
+ 
   .booking{background:var(--slate);color:var(--warm-white);}
   .booking-wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:3rem;}
   @media (max-width:900px){.booking-wrap{grid-template-columns:1fr;}}
@@ -74,16 +91,16 @@
   textarea{resize:vertical;min-height:80px;}
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
   @media (max-width:520px){.two-col{grid-template-columns:1fr;}}
-
+ 
   footer{background:var(--graphite);color:var(--chrome-dim);padding:3rem 6vw;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:0.85rem;border-top:1px solid var(--slate-line);}
   footer .brand{color:var(--warm-white);font-family:'Oswald',sans-serif;text-transform:uppercase;letter-spacing:0.05em;}
-
+ 
   .confirm-msg{display:none;background:rgba(200,16,46,0.12);border:1px solid var(--wax-red);color:var(--warm-white);padding:0.9rem 1rem;border-radius:4px;font-size:0.9rem;margin-top:0.8rem;}
   .error-msg{display:none;background:rgba(200,16,46,0.2);border:1px solid var(--wax-red);color:var(--warm-white);padding:0.9rem 1rem;border-radius:4px;font-size:0.9rem;margin-top:0.8rem;}
 </style>
 </head>
 <body>
-
+ 
 <section class="hero">
   <div class="eyebrow">Mobile detailing · San Francisco</div>
   <h1>Get it showroom clean, in your driveway.</h1>
@@ -93,31 +110,37 @@
     <a href="tel:+14159996187" class="btn btn-ghost">Call / Text (415) 999-6187</a>
   </div>
 </section>
-
+ 
 <section class="services" id="services">
   <div class="section-head">
     <h2>Services &amp; pricing</h2>
     <div class="tag">Choose your level of clean</div>
   </div>
+ 
+  <div class="size-toggle" id="sizeToggle">
+    <button type="button" class="size-btn active" data-size="sedan">Sedan / Small</button>
+    <button type="button" class="size-btn" data-size="large">SUV / XL / Truck</button>
+  </div>
+ 
   <div class="tier-grid">
     <div class="tier">
       <div class="tier-badge">Tier 01</div>
-      <h3>Basic</h3>
-      <div class="tier-price">$75</div>
+      <h3>Classic</h3>
+      <div class="tier-price" data-sedan="75" data-large="90">$75</div>
       <ul>
         <li>Exterior hand wash &amp; dry</li>
         <li>Wheel &amp; tire cleaning</li>
         <li>Window cleaning (exterior)</li>
         <li>Tire shine</li>
       </ul>
-      <a href="#booking" class="btn">Book basic</a>
+      <a href="#booking" class="btn">Book classic</a>
     </div>
     <div class="tier featured">
       <div class="tier-badge">Tier 02 · Most popular</div>
       <h3>Premium</h3>
-      <div class="tier-price">$150</div>
+      <div class="tier-price" data-sedan="150" data-large="180">$150</div>
       <ul>
-        <li>Everything in Basic</li>
+        <li>Everything in Classic package</li>
         <li>Full interior vacuum &amp; wipe-down</li>
         <li>Dashboard &amp; console detailing</li>
         <li>Interior window cleaning</li>
@@ -128,17 +151,31 @@
     <div class="tier">
       <div class="tier-badge">Tier 03</div>
       <h3>Deluxe</h3>
-      <div class="tier-price">$200</div>
+      <div class="tier-price" data-sedan="225" data-large="255">$225</div>
       <ul>
-        <li>Everything in Premium</li>
+        <li>Everything in Premium package</li>
         <li>Hand wax coat application</li>
-        <li>Paint protection shine</li>
+        <li>Clay bar</li>
       </ul>
       <a href="#booking" class="btn">Book deluxe</a>
     </div>
   </div>
+ 
+  <div class="addons">
+    <h3>Add-ons</h3>
+    <div class="addon-grid">
+      <div class="addon">
+        <span class="addon-name">Pet hair removal</span>
+        <span class="addon-price">+$30</span>
+      </div>
+      <div class="addon">
+        <span class="addon-name">Heavy Soil / Extra Mess Fee<span class="addon-note">For heavily soiled interiors</span></span>
+        <span class="addon-price">+$30</span>
+      </div>
+    </div>
+  </div>
 </section>
-
+ 
 <section class="booking" id="booking">
   <div class="section-head" style="border-color:var(--slate-line);">
     <h2>Book your detail</h2>
@@ -157,13 +194,31 @@
         <div class="field"><label for="phone">Phone</label><input type="tel" id="phone" name="phone" required></div>
       </div>
       <div class="field"><label for="vehicle">Vehicle (year / make / model)</label><input type="text" id="vehicle" name="vehicle" placeholder="e.g. 2019 Honda Civic" required></div>
+      <div class="two-col">
+        <div class="field">
+          <label for="vehicleSize">Vehicle size</label>
+          <select id="vehicleSize" name="vehicle_size">
+            <option value="sedan">Sedan / Small</option>
+            <option value="large">SUV / XL / Truck</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="service">Service</label>
+          <select id="service" name="service"></select>
+        </div>
+      </div>
       <div class="field">
-        <label for="service">Service</label>
-        <select id="service" name="service">
-          <option>Basic — $75</option>
-          <option>Premium — $150</option>
-          <option>Deluxe — $200</option>
-        </select>
+        <label>Add-ons</label>
+        <div class="two-col" style="margin-top:0.2rem;">
+          <div class="field" style="flex-direction:row;align-items:center;gap:0.6rem;">
+            <input type="checkbox" id="addonPet" name="addon_pet_hair" value="Pet hair removal (+$30)" style="width:auto;">
+            <label for="addonPet" style="text-transform:none;font-family:'Inter',sans-serif;letter-spacing:normal;">Pet hair removal (+$30)</label>
+          </div>
+          <div class="field" style="flex-direction:row;align-items:center;gap:0.6rem;">
+            <input type="checkbox" id="addonMess" name="addon_heavy_soil" value="Heavy Soil / Extra Mess Fee (+$30)" style="width:auto;">
+            <label for="addonMess" style="text-transform:none;font-family:'Inter',sans-serif;letter-spacing:normal;">Heavy Soil / Extra Mess Fee (+$30)</label>
+          </div>
+        </div>
       </div>
       <div class="two-col">
         <div class="field"><label for="date">Preferred date</label><input type="date" id="date" name="date"></div>
@@ -177,22 +232,54 @@
     </form>
   </div>
 </section>
-
+ 
 <footer>
   <div class="brand">Sutro Detailing</div>
   <div>© 2026 · San Francisco, CA</div>
 </footer>
-
+ 
 <script>
+// --- Pricing display toggle (services section) ---
+const sizeButtons = document.querySelectorAll('#sizeToggle .size-btn');
+const priceEls = document.querySelectorAll('.tier-price');
+sizeButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    sizeButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const size = btn.dataset.size;
+    priceEls.forEach(el => { el.textContent = '$' + el.dataset[size]; });
+  });
+});
+ 
+// --- Booking form: service dropdown follows vehicle size ---
+const servicePrices = {
+  sedan: [['Classic — $75','Classic — $75'],['Premium — $150','Premium — $150'],['Deluxe — $225','Deluxe — $225']],
+  large: [['Classic — $90','Classic — $90'],['Premium — $180','Premium — $180'],['Deluxe — $255','Deluxe — $255']]
+};
+const vehicleSizeSelect = document.getElementById('vehicleSize');
+const serviceSelect = document.getElementById('service');
+function refreshServiceOptions(){
+  const size = vehicleSizeSelect.value;
+  serviceSelect.innerHTML = '';
+  servicePrices[size].forEach(([label, value]) => {
+    const opt = document.createElement('option');
+    opt.textContent = label;
+    opt.value = value;
+    serviceSelect.appendChild(opt);
+  });
+}
+vehicleSizeSelect.addEventListener('change', refreshServiceOptions);
+refreshServiceOptions();
+ 
 const form = document.getElementById('bookingForm');
 const confirmMsg = document.getElementById('confirmMsg');
 const errorMsg = document.getElementById('errorMsg');
-
+ 
 form.addEventListener('submit', async function(e){
   e.preventDefault();
   errorMsg.style.display = 'none';
   confirmMsg.style.display = 'none';
-
+ 
   const data = new FormData(form);
   try{
     const response = await fetch(form.action, {
@@ -211,6 +298,7 @@ form.addEventListener('submit', async function(e){
   }
 });
 </script>
-
+ 
 </body>
 </html>
+ 
