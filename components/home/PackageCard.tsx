@@ -1,0 +1,77 @@
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { Check } from "lucide-react";
+import clsx from "clsx";
+import { PlaceholderImage } from "@/components/shared/PlaceholderImage";
+import { Button } from "@/components/shared/Button";
+import type { PricingTier } from "@/lib/data";
+
+export function PackageCard({
+  tier,
+  size,
+}: {
+  tier: PricingTier;
+  size: "sedan" | "large";
+}) {
+  const price = size === "sedan" ? tier.sedanPrice : tier.largePrice;
+
+  return (
+    <div
+      className={clsx(
+        "flex h-full flex-col overflow-hidden rounded-md border bg-graphite text-warm-white transition-all duration-300 hover:-translate-y-1.5",
+        tier.featured
+          ? "-translate-y-2.5 border-silver-300/60 shadow-[0_0_32px_rgba(216,219,222,0.12)]"
+          : "border-graphite-line hover:border-silver-400/50"
+      )}
+    >
+      {/* tier.image documents the expected filename; wire it in as `src` once the real photo exists in public/images/ */}
+      <PlaceholderImage
+        alt={`${tier.name} detailing package — example of finished work`}
+        aspect="4/3"
+        sizes="(min-width: 768px) 33vw, 100vw"
+      />
+
+      <div className="flex flex-1 flex-col p-8">
+        <div
+          className={clsx(
+            "font-mono text-xs uppercase tracking-widest",
+            tier.featured ? "text-silver-200" : "text-platinum-dim"
+          )}
+        >
+          {tier.badge}
+        </div>
+        <h3 className="mt-1 text-2xl">{tier.name}</h3>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={size}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+            className="my-4 font-mono text-4xl font-bold"
+          >
+            ${price}
+          </motion.div>
+        </AnimatePresence>
+
+        <ul className="mb-8 flex-1">
+          {tier.features.map((feature) => (
+            <li
+              key={feature}
+              className="flex gap-2 border-t border-white/10 py-2.5 text-sm text-platinum"
+            >
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-silver-200" />
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <Button href="#booking" variant={tier.featured ? "primary" : "ghost"}>
+          Book {tier.name.toLowerCase()}
+        </Button>
+      </div>
+    </div>
+  );
+}
