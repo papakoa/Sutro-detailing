@@ -22,7 +22,7 @@ export function TeamSection() {
                 />
                 <div>
                   <h3 className="text-xl">{member.name}</h3>
-                  <div className="mt-1 font-mono text-xs uppercase tracking-widest text-platinum-dim">
+                  <div className="mt-1 font-mono text-xs uppercase tracking-widest text-ash-dim">
                     {member.role}
                   </div>
                   <p className="mt-4 text-sm text-graphite/80">

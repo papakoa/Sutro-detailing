@@ -13,9 +13,9 @@ type ButtonProps = {
 
 const variantClasses = {
   primary:
-    "bg-gradient-to-r from-silver-100 via-silver-300 to-silver-100 text-graphite hover:brightness-110",
+    "bg-gradient-to-r from-leather-400 via-leather-200 to-leather-400 text-warm-white shadow-[0_0_22px_rgba(196,18,48,0.35)] hover:brightness-110",
   ghost:
-    "border border-platinum-dim text-warm-white hover:border-warm-white",
+    "border border-ash-dim text-warm-white hover:border-warm-white",
 };
 
 const sizeClasses = {

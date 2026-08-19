@@ -8,10 +8,7 @@ import { staggerContainer, staggerItem } from "@/lib/motion";
 
 export function ReviewsSection() {
   return (
-    <section
-      id="reviews"
-      className="bg-graphite px-6 py-28 text-warm-white md:px-[6vw] md:py-32"
-    >
+    <section className="leather-grain bg-graphite px-6 py-28 text-warm-white md:px-[6vw] md:py-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           title="What clients say"

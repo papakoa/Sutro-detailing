@@ -9,11 +9,11 @@ import { AddonsList } from "./AddonsList";
 import { pricingTiers } from "@/lib/data";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 
-export function PricingSection() {
+export function PackagesSection() {
   const [size, setSize] = useState<"sedan" | "large">("sedan");
 
   return (
-    <section id="pricing" className="px-6 py-28 md:px-[6vw] md:py-32">
+    <section className="px-6 py-28 md:px-[6vw] md:py-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           title="Services & pricing"

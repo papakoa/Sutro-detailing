@@ -66,12 +66,26 @@ export const pricingTiers: PricingTier[] = [
   },
 ];
 
-export const addons: { name: string; note?: string; price: number }[] = [
-  { name: "Pet hair removal", price: 30 },
+export type Addon = {
+  id: "pet_hair" | "heavy_soil" | "headlight_restoration";
+  name: string;
+  note?: string;
+  price: number;
+};
+
+export const addons: Addon[] = [
+  { id: "pet_hair", name: "Pet hair removal", price: 30 },
   {
+    id: "heavy_soil",
     name: "Heavy Soil / Extra Mess Fee",
     note: "For heavily soiled interiors",
     price: 30,
+  },
+  {
+    id: "headlight_restoration",
+    name: "Headlight restoration",
+    note: "Restores clarity to foggy or yellowed headlights",
+    price: 150,
   },
 ];
 

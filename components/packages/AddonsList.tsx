@@ -3,7 +3,7 @@ import { addons } from "@/lib/data";
 export function AddonsList() {
   return (
     <div className="mt-14 border-t border-graphite/15 pt-10">
-      <h3 className="mb-5 font-mono text-sm uppercase tracking-wide text-platinum-dim">
+      <h3 className="mb-5 font-mono text-sm uppercase tracking-wide text-ash-dim">
         Add-ons
       </h3>
       <div className="grid gap-4 sm:grid-cols-2">
@@ -15,12 +15,12 @@ export function AddonsList() {
             <span className="text-sm">
               {addon.name}
               {addon.note && (
-                <span className="mt-1 block font-mono text-xs text-platinum-dim">
+                <span className="mt-1 block font-mono text-xs text-ash-dim">
                   {addon.note}
                 </span>
               )}
             </span>
-            <span className="whitespace-nowrap font-mono text-lg font-bold text-silver-200">
+            <span className="whitespace-nowrap font-mono text-lg font-bold text-leather-200">
               +${addon.price}
             </span>
           </div>

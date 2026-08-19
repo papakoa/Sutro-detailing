@@ -41,10 +41,10 @@ export function PlaceholderImage({
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4">
           <ImageIcon
-            className="h-8 w-8 text-platinum-dim opacity-40"
+            className="h-8 w-8 text-ash-dim opacity-40"
             strokeWidth={1.5}
           />
-          <span className="max-w-[80%] text-center font-mono text-[10px] uppercase tracking-wide text-platinum-dim opacity-40">
+          <span className="max-w-[80%] text-center font-mono text-[10px] uppercase tracking-wide text-ash-dim opacity-40">
             {alt}
           </span>
         </div>

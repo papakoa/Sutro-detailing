@@ -24,7 +24,7 @@ export function SectionHeading({
     >
       <h2 className="text-[clamp(1.8rem,4vw,2.8rem)]">{title}</h2>
       {tag && (
-        <span className="font-mono text-xs uppercase tracking-widest text-platinum-dim">
+        <span className="font-mono text-xs uppercase tracking-widest text-ash-dim">
           {tag}
         </span>
       )}

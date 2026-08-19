@@ -19,10 +19,10 @@ export function PackageCard({
   return (
     <div
       className={clsx(
-        "flex h-full flex-col overflow-hidden rounded-md border bg-graphite text-warm-white transition-all duration-300 hover:-translate-y-1.5",
+        "stitched flex h-full flex-col overflow-hidden rounded-md border bg-graphite text-warm-white transition-all duration-300 hover:-translate-y-1.5",
         tier.featured
-          ? "-translate-y-2.5 border-silver-300/60 shadow-[0_0_32px_rgba(216,219,222,0.12)]"
-          : "border-graphite-line hover:border-silver-400/50"
+          ? "-translate-y-2.5 border-leather-300/60 shadow-[0_0_32px_rgba(196,18,48,0.22)]"
+          : "border-graphite-line hover:border-leather-400/50"
       )}
     >
       {/* tier.image documents the expected filename; wire it in as `src` once the real photo exists in public/images/ */}
@@ -36,7 +36,7 @@ export function PackageCard({
         <div
           className={clsx(
             "font-mono text-xs uppercase tracking-widest",
-            tier.featured ? "text-silver-200" : "text-platinum-dim"
+            tier.featured ? "text-leather-200" : "text-ash-dim"
           )}
         >
           {tier.badge}
@@ -60,15 +60,15 @@ export function PackageCard({
           {tier.features.map((feature) => (
             <li
               key={feature}
-              className="flex gap-2 border-t border-white/10 py-2.5 text-sm text-platinum"
+              className="flex gap-2 border-t border-white/10 py-2.5 text-sm text-ash"
             >
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-silver-200" />
+              <Check className="mt-0.5 h-4 w-4 shrink-0 text-leather-200" />
               {feature}
             </li>
           ))}
         </ul>
 
-        <Button href="#booking" variant={tier.featured ? "primary" : "ghost"}>
+        <Button href="/#booking" variant={tier.featured ? "primary" : "ghost"}>
           Book {tier.name.toLowerCase()}
         </Button>
       </div>

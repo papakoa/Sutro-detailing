@@ -2,26 +2,39 @@
 
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { contact, pricingTiers } from "@/lib/data";
+import { addons, contact, pricingTiers, type PricingTier } from "@/lib/data";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type VehicleSize = "sedan" | "large";
 
 const inputClass =
-  "rounded-sm border border-graphite-line bg-graphite px-4 py-3 text-sm text-warm-white placeholder:text-platinum-dim/60 focus:outline focus:outline-2 focus:outline-silver-300";
+  "rounded-sm border border-graphite-line bg-graphite px-4 py-3 text-sm text-warm-white placeholder:text-ash-dim/60 focus:outline focus:outline-2 focus:outline-leather-300";
 
-const labelClass = "font-mono text-xs uppercase tracking-wide text-platinum-dim";
+const labelClass = "font-mono text-xs uppercase tracking-wide text-ash-dim";
+
+const defaultAddonState = Object.fromEntries(
+  addons.map((addon) => [addon.id, false])
+) as Record<(typeof addons)[number]["id"], boolean>;
 
 export function BookingForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [vehicleSize, setVehicleSize] = useState<VehicleSize>("sedan");
+  const [tierId, setTierId] = useState<PricingTier["id"]>(pricingTiers[0].id);
+  const [selectedAddons, setSelectedAddons] = useState(defaultAddonState);
   const [status, setStatus] = useState<Status>("idle");
 
-  const serviceOptions = pricingTiers.map((tier) => {
-    const price = vehicleSize === "sedan" ? tier.sedanPrice : tier.largePrice;
-    const label = `${tier.name} — $${price}`;
-    return { label, value: label };
-  });
+  const selectedTier = pricingTiers.find((tier) => tier.id === tierId)!;
+  const tierPrice =
+    vehicleSize === "sedan" ? selectedTier.sedanPrice : selectedTier.largePrice;
+  const serviceLabel = `${selectedTier.name} — $${tierPrice}`;
+
+  const selectedAddonList = addons.filter((addon) => selectedAddons[addon.id]);
+  const addonsTotal = selectedAddonList.reduce((sum, addon) => sum + addon.price, 0);
+  const total = tierPrice + addonsTotal;
+
+  function toggleAddon(id: (typeof addons)[number]["id"]) {
+    setSelectedAddons((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,6 +52,8 @@ export function BookingForm() {
         setStatus("success");
         formRef.current.reset();
         setVehicleSize("sedan");
+        setTierId(pricingTiers[0].id);
+        setSelectedAddons(defaultAddonState);
       } else {
         setStatus("error");
       }
@@ -51,7 +66,7 @@ export function BookingForm() {
     <form
       ref={formRef}
       onSubmit={handleSubmit}
-      className="flex flex-col gap-5 rounded-md border border-graphite-line bg-graphite p-8"
+      className="stitched flex flex-col gap-5 rounded-md border border-graphite-line bg-graphite p-8"
     >
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
@@ -102,37 +117,45 @@ export function BookingForm() {
           <label htmlFor="service" className={labelClass}>
             Service
           </label>
-          <select id="service" name="service" className={inputClass}>
-            {serviceOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+          <select
+            id="service"
+            value={tierId}
+            onChange={(e) => setTierId(e.target.value as PricingTier["id"])}
+            className={inputClass}
+          >
+            {pricingTiers.map((tier) => {
+              const price = vehicleSize === "sedan" ? tier.sedanPrice : tier.largePrice;
+              return (
+                <option key={tier.id} value={tier.id}>
+                  {tier.name} — ${price}
+                </option>
+              );
+            })}
           </select>
+          {/* Formspree field contract expects the visible label as the value, not the tier id. */}
+          <input type="hidden" name="service" value={serviceLabel} />
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
         <span className={labelClass}>Add-ons</span>
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="flex items-center gap-2 text-sm text-platinum">
-            <input
-              type="checkbox"
-              name="addon_pet_hair"
-              value="Pet hair removal (+$30)"
-              className="h-4 w-4"
-            />
-            Pet hair removal (+$30)
-          </label>
-          <label className="flex items-center gap-2 text-sm text-platinum">
-            <input
-              type="checkbox"
-              name="addon_heavy_soil"
-              value="Heavy Soil / Extra Mess Fee (+$30)"
-              className="h-4 w-4"
-            />
-            Heavy Soil / Extra Mess Fee (+$30)
-          </label>
+          {addons.map((addon) => (
+            <label
+              key={addon.id}
+              className="flex items-center gap-2 text-sm text-ash"
+            >
+              <input
+                type="checkbox"
+                name={`addon_${addon.id}`}
+                value={`${addon.name} (+$${addon.price})`}
+                checked={selectedAddons[addon.id]}
+                onChange={() => toggleAddon(addon.id)}
+                className="h-4 w-4"
+              />
+              {addon.name} (+${addon.price})
+            </label>
+          ))}
         </div>
       </div>
 
@@ -164,11 +187,57 @@ export function BookingForm() {
       </div>
 
       <input type="hidden" name="_subject" value="New Sutro Detailing booking request" />
+      <input type="hidden" name="estimated_total" value={`$${total}`} />
+
+      {/* Live price recap — updates as size/service/add-ons change. */}
+      <div className="rounded-md border border-leather-400/40 bg-graphite-2 p-5">
+        <div className={`${labelClass} mb-3`}>Price breakdown</div>
+        <div className="flex flex-col gap-2 text-sm text-ash">
+          <div className="flex items-center justify-between">
+            <span>
+              {selectedTier.name}{" "}
+              <span className="text-ash-dim">
+                ({vehicleSize === "sedan" ? "Sedan / Small" : "SUV / XL / Truck"})
+              </span>
+            </span>
+            <span className="font-mono">${tierPrice}</span>
+          </div>
+          <AnimatePresence initial={false}>
+            {selectedAddonList.map((addon) => (
+              <motion.div
+                key={addon.id}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center justify-between overflow-hidden"
+              >
+                <span>{addon.name}</span>
+                <span className="font-mono">+${addon.price}</span>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+        <div className="mt-4 flex items-center justify-between border-t border-graphite-line pt-4">
+          <span className="font-heading text-sm uppercase tracking-wide text-warm-white">
+            Total
+          </span>
+          <motion.span
+            key={total}
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="font-mono text-2xl font-bold text-leather-200"
+          >
+            ${total}
+          </motion.span>
+        </div>
+      </div>
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="rounded-md bg-gradient-to-r from-silver-100 via-silver-300 to-silver-100 px-7 py-3.5 font-heading text-sm font-semibold uppercase tracking-wide text-graphite transition-transform hover:-translate-y-0.5 disabled:pointer-events-none disabled:opacity-60"
+        className="rounded-md bg-gradient-to-r from-leather-400 via-leather-200 to-leather-400 px-7 py-3.5 font-heading text-sm font-semibold uppercase tracking-wide text-warm-white shadow-[0_0_22px_rgba(196,18,48,0.35)] transition-transform hover:-translate-y-0.5 disabled:pointer-events-none disabled:opacity-60"
       >
         {status === "submitting" ? "Sending…" : "Send booking request"}
       </button>
@@ -180,7 +249,7 @@ export function BookingForm() {
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="rounded-sm border border-silver-300/50 bg-silver-500/10 px-4 py-3 text-sm text-warm-white"
+              className="rounded-sm border border-leather-300/50 bg-leather-500/10 px-4 py-3 text-sm text-warm-white"
             >
               Thanks! Your request is in — we&apos;ll text or email you
               shortly to confirm.

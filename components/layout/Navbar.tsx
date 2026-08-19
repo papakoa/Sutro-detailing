@@ -7,6 +7,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import clsx from "clsx";
 
+const bookButtonClasses =
+  "rounded-md bg-gradient-to-r from-leather-400 via-leather-200 to-leather-400 font-heading font-semibold uppercase tracking-widest text-warm-white shadow-[0_0_18px_rgba(196,18,48,0.35)] transition-transform hover:-translate-y-0.5";
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -19,13 +22,12 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const prefix = pathname === "/" ? "" : "/";
   const links = [
-    { label: "Pricing", href: `${prefix}#pricing` },
-    { label: "Reviews", href: `${prefix}#reviews` },
+    { label: "Packages", href: "/packages" },
+    { label: "Reviews", href: "/reviews" },
     { label: "About", href: "/about" },
   ];
-  const bookingHref = `${prefix}#booking`;
+  const bookingHref = pathname === "/" ? "#booking" : "/#booking";
 
   return (
     <header
@@ -49,15 +51,12 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="font-mono text-xs uppercase tracking-widest text-platinum-dim transition-colors hover:text-warm-white"
+              className="font-mono text-xs uppercase tracking-widest text-ash-dim transition-colors hover:text-warm-white"
             >
               {link.label}
             </Link>
           ))}
-          <Link
-            href={bookingHref}
-            className="rounded-md bg-gradient-to-r from-silver-100 via-silver-300 to-silver-100 px-5 py-2.5 font-heading text-xs font-semibold uppercase tracking-widest text-graphite transition-transform hover:-translate-y-0.5"
-          >
+          <Link href={bookingHref} className={clsx(bookButtonClasses, "px-5 py-2.5 text-xs")}>
             Book now
           </Link>
         </nav>
@@ -88,7 +87,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="py-3 font-mono text-sm uppercase tracking-widest text-platinum-dim hover:text-warm-white"
+                  className="py-3 font-mono text-sm uppercase tracking-widest text-ash-dim hover:text-warm-white"
                 >
                   {link.label}
                 </Link>
@@ -96,7 +95,7 @@ export function Navbar() {
               <Link
                 href={bookingHref}
                 onClick={() => setOpen(false)}
-                className="mt-2 rounded-md bg-gradient-to-r from-silver-100 via-silver-300 to-silver-100 px-5 py-3 text-center font-heading text-xs font-semibold uppercase tracking-widest text-graphite"
+                className={clsx(bookButtonClasses, "mt-2 px-5 py-3 text-center text-xs")}
               >
                 Book now
               </Link>

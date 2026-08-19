@@ -1,17 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  --color-graphite: #0b0c0e;
-  --color-graphite-2: #141619;
-  --color-graphite-line: #2a2d31;
+  /* Near-black bases, warmed very slightly toward wine rather than neutral gray. */
+  --color-graphite: #0c0708;
+  --color-graphite-2: #1a0e10;
+  --color-graphite-line: #3a1b21;
   --color-warm-white: #f6f4f1;
-  --color-platinum: #d8dbde;
-  --color-platinum-dim: #8e9297;
-  --color-silver-100: #f2f3f4;
-  --color-silver-200: #d9dcde;
-  --color-silver-300: #b7bbc0;
-  --color-silver-400: #8b8f94;
-  --color-silver-500: #5c6065;
+  --color-cream: #ecdfc8;
+
+  /* Muted body text on dark surfaces — warm taupe, not cool chrome-gray. */
+  --color-ash: #d9c9c4;
+  --color-ash-dim: #9c8783;
+
+  /* Red-leather accent ramp, bright to deep oxblood. Primary accent color. */
+  --color-leather-100: #ff6b6b;
+  --color-leather-200: #e8384b;
+  --color-leather-300: #c41230;
+  --color-leather-400: #8c0f26;
+  --color-leather-500: #5c0a1a;
 
   --font-sans: var(--font-inter);
   --font-heading: var(--font-oswald);
@@ -47,4 +53,29 @@ h3 {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* Dashed inset border mimicking a stitched leather seam. Apply to a
+   `relative` + rounded element (cards, buttons, the booking form panel). */
+.stitched {
+  position: relative;
+}
+
+.stitched::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px dashed rgba(236, 223, 200, 0.28);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Very subtle grain, meant to read as leather texture up close without
+   hurting legibility. Layer on top of a dark background. */
+.leather-grain {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.02) 0, transparent 45%),
+    radial-gradient(circle at 70% 65%, rgba(255, 255, 255, 0.015) 0, transparent 40%),
+    radial-gradient(circle at 40% 85%, rgba(0, 0, 0, 0.25) 0, transparent 50%);
+  background-size: 180px 180px, 220px 220px, 260px 260px;
 }

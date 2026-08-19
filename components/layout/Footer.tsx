@@ -4,7 +4,7 @@ import { contact } from "@/lib/data";
 
 export function Footer() {
   return (
-    <footer className="border-t border-graphite-line bg-graphite px-6 py-14 text-platinum-dim md:px-[6vw]">
+    <footer className="border-t border-graphite-line bg-graphite px-6 py-14 text-ash-dim md:px-[6vw]">
       <div className="mx-auto flex max-w-7xl flex-col gap-10 md:flex-row md:items-start md:justify-between">
         <div>
           <div className="font-heading text-lg uppercase tracking-wide text-warm-white">
@@ -41,6 +41,18 @@ export function Footer() {
         <div className="flex gap-6 font-mono text-xs uppercase tracking-widest">
           <Link href="/" className="transition-colors hover:text-warm-white">
             Home
+          </Link>
+          <Link
+            href="/packages"
+            className="transition-colors hover:text-warm-white"
+          >
+            Packages
+          </Link>
+          <Link
+            href="/reviews"
+            className="transition-colors hover:text-warm-white"
+          >
+            Reviews
           </Link>
           <Link
             href="/about"

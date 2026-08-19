@@ -17,9 +17,9 @@ export function BenefitsSection() {
             return (
               <Reveal key={benefit.title} delay={i * 0.1}>
                 <div className="h-full rounded-md border border-graphite-line bg-graphite-2 p-8">
-                  <Icon className="h-6 w-6 text-silver-200" strokeWidth={1.5} />
+                  <Icon className="h-6 w-6 text-leather-200" strokeWidth={1.5} />
                   <h3 className="mt-4 text-lg">{benefit.title}</h3>
-                  <p className="mt-2 text-sm text-platinum">
+                  <p className="mt-2 text-sm text-ash">
                     {benefit.description}
                   </p>
                 </div>
