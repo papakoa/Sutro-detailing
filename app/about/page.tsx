@@ -3,7 +3,6 @@ import { TeamSection } from "@/components/about/TeamSection";
 import { BenefitsSection } from "@/components/about/BenefitsSection";
 import { TransformationSection } from "@/components/about/TransformationSection";
 import { StorySection } from "@/components/about/StorySection";
-import { GallerySection } from "@/components/about/GallerySection";
 
 export const metadata: Metadata = {
   title: "About — Sutro Detailing",
@@ -18,7 +17,6 @@ export default function About() {
       <BenefitsSection />
       <TransformationSection />
       <StorySection />
-      <GallerySection />
     </>
   );
 }

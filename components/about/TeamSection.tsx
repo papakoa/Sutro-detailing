@@ -13,10 +13,10 @@ export function TeamSection() {
           {team.map((member) => (
             <Reveal key={member.name}>
               <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-                {/* member.image documents the expected filename; wire it in as `src` once the real headshot exists in public/images/ */}
                 <PlaceholderImage
                   alt={`Portrait of ${member.name}, Sutro Detailing co-founder`}
                   aspect="1/1"
+                  src={member.image}
                   sizes="192px"
                   className="w-40 shrink-0 rounded-md sm:w-48"
                 />

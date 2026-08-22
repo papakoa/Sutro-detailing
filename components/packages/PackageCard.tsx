@@ -21,7 +21,7 @@ export function PackageCard({
   return (
     <div
       className={clsx(
-        "stitched flex h-full flex-col overflow-hidden rounded-md border bg-graphite text-warm-white transition-all duration-300 hover:-translate-y-1.5",
+        "flex h-full flex-col overflow-hidden rounded-md border bg-graphite text-warm-white transition-all duration-300 hover:-translate-y-1.5",
         tier.featured
           ? "-translate-y-2.5 border-leather-300/60 shadow-[0_0_32px_rgba(196,18,48,0.22)]"
           : "border-graphite-line hover:border-leather-400/50"
@@ -44,7 +44,7 @@ export function PackageCard({
         </motion.div>
       </AnimatePresence>
 
-      <div className="flex flex-1 flex-col p-8">
+      <div className="stitched flex flex-1 flex-col p-8">
         <div
           className={clsx(
             "font-mono text-xs uppercase tracking-widest",
