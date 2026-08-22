@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import clsx from "clsx";
 
 type DatePickerProps = {
@@ -13,9 +13,18 @@ type DatePickerProps = {
 
 const WEEKDAYS = ["S", "M", "T", "W", "T", "F", "S"];
 
+function startOfMonth(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), 1);
+}
+
 export function DatePicker({ name, value, onChange, invalid }: DatePickerProps) {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const [viewDate, setViewDate] = useState(() => startOfMonth(today));
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -27,23 +36,33 @@ export function DatePicker({ name, value, onChange, invalid }: DatePickerProps) 
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // "This month's dates" per the brief — deliberately not a multi-month
-  // picker. Computed at render time rather than on mount so it can't go
-  // stale in a long-lived tab.
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const year = today.getFullYear();
-  const month = today.getMonth();
-  const monthLabel = today.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth();
+  const monthLabel = viewDate.toLocaleDateString("en-US", { month: "long", year: "numeric" });
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const firstWeekday = new Date(year, month, 1).getDay();
+  const isCurrentMonthView =
+    year === today.getFullYear() && month === today.getMonth();
 
   function labelForDay(day: number) {
     return new Date(year, month, day).toLocaleDateString("en-US", {
       weekday: "short",
       month: "short",
       day: "numeric",
+      year: "numeric",
     });
+  }
+
+  function goToPrevMonth() {
+    setViewDate((prev) => {
+      const next = new Date(prev.getFullYear(), prev.getMonth() - 1, 1);
+      const floor = startOfMonth(today);
+      return next < floor ? floor : next;
+    });
+  }
+
+  function goToNextMonth() {
+    setViewDate((prev) => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
   }
 
   return (
@@ -68,8 +87,32 @@ export function DatePicker({ name, value, onChange, invalid }: DatePickerProps) 
 
       {open && (
         <div className="absolute z-20 mt-2 w-72 max-w-[90vw] rounded-md border border-graphite-line bg-graphite p-4 shadow-xl">
-          <div className="mb-3 text-center font-mono text-xs uppercase tracking-wide text-ash-dim">
-            {monthLabel}
+          <div className="mb-3 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={goToPrevMonth}
+              disabled={isCurrentMonthView}
+              aria-label="Previous month"
+              className={clsx(
+                "rounded-sm p-1 transition-colors",
+                isCurrentMonthView
+                  ? "cursor-not-allowed text-ash-dim/25"
+                  : "text-ash-dim hover:text-warm-white"
+              )}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+            <span className="font-mono text-xs uppercase tracking-wide text-ash-dim">
+              {monthLabel}
+            </span>
+            <button
+              type="button"
+              onClick={goToNextMonth}
+              aria-label="Next month"
+              className="rounded-sm p-1 text-ash-dim transition-colors hover:text-warm-white"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
           </div>
           <div className="grid grid-cols-7 gap-1">
             {WEEKDAYS.map((d, i) => (
