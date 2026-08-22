@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check, Clock } from "lucide-react";
 import clsx from "clsx";
 import { PlaceholderImage } from "@/components/shared/PlaceholderImage";
 import { Button } from "@/components/shared/Button";
@@ -15,6 +15,7 @@ export function PackageCard({
   size: "sedan" | "large";
 }) {
   const price = size === "sedan" ? tier.sedanPrice : tier.largePrice;
+  const duration = size === "sedan" ? tier.sedanDuration : tier.largeDuration;
 
   return (
     <div
@@ -50,9 +51,23 @@ export function PackageCard({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.2 }}
-            className="my-4 font-mono text-4xl font-bold"
+            className="mt-4 mb-1 font-mono text-4xl font-bold"
           >
             ${price}
+          </motion.div>
+        </AnimatePresence>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={size}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="mb-4 flex items-center gap-1.5 font-mono text-xs text-ash-dim"
+          >
+            <Clock className="h-3.5 w-3.5" />
+            {duration}
           </motion.div>
         </AnimatePresence>
 

@@ -2,38 +2,91 @@
 
 import { useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { addons, contact, pricingTiers, type PricingTier } from "@/lib/data";
+import { Plus, X } from "lucide-react";
+import clsx from "clsx";
+import { addons, contact, services, type Addon, type ServiceOption } from "@/lib/data";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type VehicleSize = "sedan" | "large";
+type ServiceId = ServiceOption["id"];
+type AddonId = Addon["id"];
+
+type CarBooking = {
+  uid: string;
+  size: VehicleSize;
+  services: Record<ServiceId, boolean>;
+  addons: Record<AddonId, boolean>;
+};
+
+function createCar(uid: string): CarBooking {
+  return {
+    uid,
+    size: "sedan",
+    services: Object.fromEntries(services.map((s) => [s.id, false])) as Record<
+      ServiceId,
+      boolean
+    >,
+    addons: Object.fromEntries(addons.map((a) => [a.id, false])) as Record<
+      AddonId,
+      boolean
+    >,
+  };
+}
+
+function carSubtotal(car: CarBooking): number {
+  const serviceTotal = services.reduce((sum, s) => {
+    if (!car.services[s.id]) return sum;
+    return sum + (car.size === "sedan" ? s.sedanPrice : s.largePrice);
+  }, 0);
+  const addonTotal = addons.reduce(
+    (sum, a) => sum + (car.addons[a.id] ? a.price : 0),
+    0
+  );
+  return serviceTotal + addonTotal;
+}
 
 const inputClass =
   "rounded-sm border border-graphite-line bg-graphite px-4 py-3 text-sm text-warm-white placeholder:text-ash-dim/60 focus:outline focus:outline-2 focus:outline-leather-300";
 
 const labelClass = "font-mono text-xs uppercase tracking-wide text-ash-dim";
 
-const defaultAddonState = Object.fromEntries(
-  addons.map((addon) => [addon.id, false])
-) as Record<(typeof addons)[number]["id"], boolean>;
-
 export function BookingForm() {
   const formRef = useRef<HTMLFormElement>(null);
-  const [vehicleSize, setVehicleSize] = useState<VehicleSize>("sedan");
-  const [tierId, setTierId] = useState<PricingTier["id"]>(pricingTiers[0].id);
-  const [selectedAddons, setSelectedAddons] = useState(defaultAddonState);
+  const nextCarNumber = useRef(1);
+  const [cars, setCars] = useState<CarBooking[]>([createCar("car-0")]);
   const [status, setStatus] = useState<Status>("idle");
 
-  const selectedTier = pricingTiers.find((tier) => tier.id === tierId)!;
-  const tierPrice =
-    vehicleSize === "sedan" ? selectedTier.sedanPrice : selectedTier.largePrice;
-  const serviceLabel = `${selectedTier.name} — $${tierPrice}`;
+  const grandTotal = cars.reduce((sum, car) => sum + carSubtotal(car), 0);
 
-  const selectedAddonList = addons.filter((addon) => selectedAddons[addon.id]);
-  const addonsTotal = selectedAddonList.reduce((sum, addon) => sum + addon.price, 0);
-  const total = tierPrice + addonsTotal;
+  function addCar() {
+    const uid = `car-${nextCarNumber.current++}`;
+    setCars((prev) => [...prev, createCar(uid)]);
+  }
 
-  function toggleAddon(id: (typeof addons)[number]["id"]) {
-    setSelectedAddons((prev) => ({ ...prev, [id]: !prev[id] }));
+  function removeCar(uid: string) {
+    setCars((prev) => (prev.length > 1 ? prev.filter((c) => c.uid !== uid) : prev));
+  }
+
+  function updateCarSize(uid: string, size: VehicleSize) {
+    setCars((prev) => prev.map((c) => (c.uid === uid ? { ...c, size } : c)));
+  }
+
+  function toggleService(uid: string, serviceId: ServiceId) {
+    setCars((prev) =>
+      prev.map((c) =>
+        c.uid === uid
+          ? { ...c, services: { ...c.services, [serviceId]: !c.services[serviceId] } }
+          : c
+      )
+    );
+  }
+
+  function toggleAddon(uid: string, addonId: AddonId) {
+    setCars((prev) =>
+      prev.map((c) =>
+        c.uid === uid ? { ...c, addons: { ...c.addons, [addonId]: !c.addons[addonId] } } : c
+      )
+    );
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -51,9 +104,8 @@ export function BookingForm() {
       if (response.ok) {
         setStatus("success");
         formRef.current.reset();
-        setVehicleSize("sedan");
-        setTierId(pricingTiers[0].id);
-        setSelectedAddons(defaultAddonState);
+        nextCarNumber.current = 1;
+        setCars([createCar("car-0")]);
       } else {
         setStatus("error");
       }
@@ -83,81 +135,155 @@ export function BookingForm() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="vehicle" className={labelClass}>
-          Vehicle (year / make / model)
-        </label>
-        <input
-          id="vehicle"
-          name="vehicle"
-          type="text"
-          placeholder="e.g. 2019 Honda Civic"
-          required
-          className={inputClass}
-        />
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="vehicle_size" className={labelClass}>
-            Vehicle size
-          </label>
-          <select
-            id="vehicle_size"
-            name="vehicle_size"
-            value={vehicleSize}
-            onChange={(e) => setVehicleSize(e.target.value as VehicleSize)}
-            className={inputClass}
+      <AnimatePresence initial={false}>
+        {cars.map((car, index) => (
+          <motion.div
+            key={car.uid}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden"
           >
-            <option value="sedan">Sedan / Small</option>
-            <option value="large">SUV / XL / Truck</option>
-          </select>
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="service" className={labelClass}>
-            Service
-          </label>
-          <select
-            id="service"
-            value={tierId}
-            onChange={(e) => setTierId(e.target.value as PricingTier["id"])}
-            className={inputClass}
-          >
-            {pricingTiers.map((tier) => {
-              const price = vehicleSize === "sedan" ? tier.sedanPrice : tier.largePrice;
-              return (
-                <option key={tier.id} value={tier.id}>
-                  {tier.name} — ${price}
-                </option>
-              );
-            })}
-          </select>
-          {/* Formspree field contract expects the visible label as the value, not the tier id. */}
-          <input type="hidden" name="service" value={serviceLabel} />
-        </div>
-      </div>
+            <div className="stitched rounded-md border border-graphite-line bg-graphite-2 p-5">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="font-heading text-sm uppercase tracking-wide text-warm-white">
+                  Car {index + 1}
+                </span>
+                {cars.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeCar(car.uid)}
+                    aria-label={`Remove car ${index + 1}`}
+                    className="text-ash-dim transition-colors hover:text-leather-200"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
 
-      <div className="flex flex-col gap-2">
-        <span className={labelClass}>Add-ons</span>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {addons.map((addon) => (
-            <label
-              key={addon.id}
-              className="flex items-center gap-2 text-sm text-ash"
-            >
-              <input
-                type="checkbox"
-                name={`addon_${addon.id}`}
-                value={`${addon.name} (+$${addon.price})`}
-                checked={selectedAddons[addon.id]}
-                onChange={() => toggleAddon(addon.id)}
-                className="h-4 w-4"
-              />
-              {addon.name} (+${addon.price})
-            </label>
-          ))}
-        </div>
-      </div>
+              <div className="mb-4 flex flex-col gap-1.5">
+                <label htmlFor={`${car.uid}-vehicle`} className={labelClass}>
+                  Vehicle (year / make / model)
+                </label>
+                <input
+                  id={`${car.uid}-vehicle`}
+                  name={`car_${index + 1}_vehicle`}
+                  type="text"
+                  placeholder="e.g. 2019 Honda Civic"
+                  required
+                  className={inputClass}
+                />
+              </div>
+
+              <div className="mb-4 flex flex-col gap-1.5">
+                <label htmlFor={`${car.uid}-size`} className={labelClass}>
+                  Vehicle size
+                </label>
+                <select
+                  id={`${car.uid}-size`}
+                  name={`car_${index + 1}_vehicle_size`}
+                  value={car.size}
+                  onChange={(e) => updateCarSize(car.uid, e.target.value as VehicleSize)}
+                  className={inputClass}
+                >
+                  <option value="sedan">Sedan / Small</option>
+                  <option value="large">SUV / XL / Truck</option>
+                </select>
+              </div>
+
+              <div className="mb-4 flex flex-col gap-2">
+                <span className={labelClass}>
+                  Services{" "}
+                  <span className="normal-case text-ash-dim/70">
+                    (pick any combination)
+                  </span>
+                </span>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {services.map((service) => {
+                    const price =
+                      car.size === "sedan" ? service.sedanPrice : service.largePrice;
+                    const checked = car.services[service.id];
+                    return (
+                      <label
+                        key={service.id}
+                        className={clsx(
+                          "flex cursor-pointer flex-col gap-1 rounded-md border px-3 py-2.5 text-sm transition-colors",
+                          checked
+                            ? "border-leather-300 bg-leather-500/15 text-warm-white"
+                            : "border-graphite-line text-ash hover:border-leather-400/50"
+                        )}
+                      >
+                        <span className="flex items-center justify-between gap-2">
+                          <span className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              name={`car_${index + 1}_${service.id}`}
+                              value={`${service.name} — $${price}`}
+                              checked={checked}
+                              onChange={() => toggleService(car.uid, service.id)}
+                              className="h-4 w-4"
+                            />
+                            {service.name}
+                          </span>
+                          <span className="font-mono text-xs text-ash-dim">
+                            ${price}
+                          </span>
+                        </span>
+                        <span className="pl-6 text-xs text-ash-dim">
+                          {service.blurb}
+                        </span>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <span className={labelClass}>Add-ons</span>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {addons.map((addon) => {
+                    const checked = car.addons[addon.id];
+                    return (
+                      <label
+                        key={addon.id}
+                        className="flex items-center gap-2 text-sm text-ash"
+                      >
+                        <input
+                          type="checkbox"
+                          name={`car_${index + 1}_addon_${addon.id}`}
+                          value={`${addon.name} (+$${addon.price})`}
+                          checked={checked}
+                          onChange={() => toggleAddon(car.uid, addon.id)}
+                          className="h-4 w-4"
+                        />
+                        {addon.name} (+${addon.price})
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {cars.length > 1 && (
+                <div className="mt-4 flex items-center justify-between border-t border-graphite-line pt-3 text-sm">
+                  <span className="text-ash-dim">Car {index + 1} subtotal</span>
+                  <span className="font-mono font-bold text-leather-200">
+                    ${carSubtotal(car)}
+                  </span>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
+      <button
+        type="button"
+        onClick={addCar}
+        className="flex items-center justify-center gap-2 rounded-md border border-dashed border-leather-400/50 px-4 py-3 font-mono text-xs uppercase tracking-widest text-ash-dim transition-colors hover:border-leather-300 hover:text-warm-white"
+      >
+        <Plus className="h-4 w-4" /> Add another car
+      </button>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1.5">
@@ -187,49 +313,83 @@ export function BookingForm() {
       </div>
 
       <input type="hidden" name="_subject" value="New Sutro Detailing booking request" />
-      <input type="hidden" name="estimated_total" value={`$${total}`} />
+      <input type="hidden" name="estimated_total" value={`$${grandTotal}`} />
 
-      {/* Live price recap — updates as size/service/add-ons change. */}
+      {/* Live price recap — updates as cars/services/add-ons change. */}
       <div className="rounded-md border border-leather-400/40 bg-graphite-2 p-5">
         <div className={`${labelClass} mb-3`}>Price breakdown</div>
-        <div className="flex flex-col gap-2 text-sm text-ash">
-          <div className="flex items-center justify-between">
-            <span>
-              {selectedTier.name}{" "}
-              <span className="text-ash-dim">
-                ({vehicleSize === "sedan" ? "Sedan / Small" : "SUV / XL / Truck"})
-              </span>
-            </span>
-            <span className="font-mono">${tierPrice}</span>
+
+        {grandTotal === 0 ? (
+          <p className="text-sm text-ash-dim">
+            Select at least one service to see pricing.
+          </p>
+        ) : (
+          <div className="flex flex-col gap-3 text-sm text-ash">
+            {cars.map((car, index) => {
+              const selectedServices = services.filter((s) => car.services[s.id]);
+              const selectedAddons = addons.filter((a) => car.addons[a.id]);
+              if (selectedServices.length === 0 && selectedAddons.length === 0) {
+                return null;
+              }
+              return (
+                <div
+                  key={car.uid}
+                  className={
+                    cars.length > 1
+                      ? "border-b border-graphite-line pb-3 last:border-b-0 last:pb-0"
+                      : undefined
+                  }
+                >
+                  {cars.length > 1 && (
+                    <div className="mb-1.5 font-mono text-xs uppercase tracking-wide text-ash-dim">
+                      Car {index + 1}
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-1.5">
+                    {selectedServices.map((s) => (
+                      <div key={s.id} className="flex items-center justify-between">
+                        <span>
+                          {s.name}{" "}
+                          <span className="text-ash-dim">
+                            ({car.size === "sedan" ? "Sedan/Small" : "SUV/XL/Truck"})
+                          </span>
+                        </span>
+                        <span className="font-mono">
+                          ${car.size === "sedan" ? s.sedanPrice : s.largePrice}
+                        </span>
+                      </div>
+                    ))}
+                    {selectedAddons.map((a) => (
+                      <div key={a.id} className="flex items-center justify-between">
+                        <span>{a.name}</span>
+                        <span className="font-mono">+${a.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                  {cars.length > 1 && (
+                    <div className="mt-1.5 flex items-center justify-between text-xs text-ash-dim">
+                      <span>Subtotal</span>
+                      <span className="font-mono">${carSubtotal(car)}</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <AnimatePresence initial={false}>
-            {selectedAddonList.map((addon) => (
-              <motion.div
-                key={addon.id}
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2 }}
-                className="flex items-center justify-between overflow-hidden"
-              >
-                <span>{addon.name}</span>
-                <span className="font-mono">+${addon.price}</span>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+        )}
+
         <div className="mt-4 flex items-center justify-between border-t border-graphite-line pt-4">
           <span className="font-heading text-sm uppercase tracking-wide text-warm-white">
             Total
           </span>
           <motion.span
-            key={total}
+            key={grandTotal}
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             className="font-mono text-2xl font-bold text-leather-200"
           >
-            ${total}
+            ${grandTotal}
           </motion.span>
         </div>
       </div>

@@ -10,11 +10,13 @@ export const contact = {
 };
 
 export type PricingTier = {
-  id: "classic" | "premium" | "deluxe";
+  id: "classic" | "premium" | "luxury";
   badge: string;
   name: string;
   sedanPrice: number;
   largePrice: number;
+  sedanDuration: string;
+  largeDuration: string;
   features: string[];
   featured?: boolean;
   image: string;
@@ -27,6 +29,8 @@ export const pricingTiers: PricingTier[] = [
     name: "Classic",
     sedanPrice: 75,
     largePrice: 90,
+    sedanDuration: "~1 hr",
+    largeDuration: "~1.5 hrs",
     features: [
       "Exterior hand wash & dry",
       "Wheel & tire cleaning",
@@ -41,6 +45,8 @@ export const pricingTiers: PricingTier[] = [
     name: "Premium",
     sedanPrice: 150,
     largePrice: 180,
+    sedanDuration: "~2 hrs",
+    largeDuration: "2–3 hrs",
     featured: true,
     features: [
       "Everything in Classic package",
@@ -52,17 +58,68 @@ export const pricingTiers: PricingTier[] = [
     image: "/images/package-premium.jpg",
   },
   {
-    id: "deluxe",
+    id: "luxury",
     badge: "Tier 03",
-    name: "Deluxe",
+    name: "Luxury",
     sedanPrice: 225,
     largePrice: 255,
+    sedanDuration: "~2.5 hrs",
+    largeDuration: "2.5–3.5 hrs",
     features: [
       "Everything in Premium package",
       "Hand wax coat application",
       "Clay bar",
     ],
-    image: "/images/package-deluxe.jpg",
+    image: "/images/package-luxury.jpg",
+  },
+];
+
+export type ServiceOption = {
+  id: "exterior" | "interior" | "wax";
+  name: string;
+  blurb: string;
+  features: string[];
+  sedanPrice: number;
+  largePrice: number;
+};
+
+// À la carte services for the booking form — priced so any one, two, or all
+// three add up consistently with the package prices above (all three =
+// the Luxury package price, for either vehicle size).
+export const services: ServiceOption[] = [
+  {
+    id: "exterior",
+    name: "Exterior",
+    blurb: "Wash, wheels, tires, windows",
+    features: [
+      "Exterior hand wash & dry",
+      "Wheel & tire cleaning",
+      "Window cleaning (exterior)",
+      "Tire shine",
+    ],
+    sedanPrice: 75,
+    largePrice: 90,
+  },
+  {
+    id: "interior",
+    name: "Interior",
+    blurb: "Vacuum, dash, interior windows, jambs",
+    features: [
+      "Full interior vacuum & wipe-down",
+      "Dashboard & console detailing",
+      "Interior window cleaning",
+      "Door jambs & trim clean",
+    ],
+    sedanPrice: 75,
+    largePrice: 90,
+  },
+  {
+    id: "wax",
+    name: "Wax Coat",
+    blurb: "Hand wax + clay bar",
+    features: ["Hand wax coat application", "Clay bar"],
+    sedanPrice: 75,
+    largePrice: 75,
   },
 ];
 
@@ -116,7 +173,7 @@ export const reviews: Review[] = [
     name: "Marcus T.",
     vehicle: "Audi Q5",
     quote:
-      "Professional, on time, and the difference after the Deluxe package was night and day.",
+      "Professional, on time, and the difference after the Luxury package was night and day.",
     rating: 5,
   },
 ];
