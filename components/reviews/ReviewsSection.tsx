@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Star } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ReviewCard } from "./ReviewCard";
-import { reviews } from "@/lib/data";
+import { reviews, reviewSummary } from "@/lib/data";
 import { staggerContainer, staggerItem } from "@/lib/motion";
 
 export function ReviewsSection() {
@@ -15,6 +16,20 @@ export function ReviewsSection() {
           tag="Real jobs, real feedback"
           light
         />
+
+        <div className="-mt-10 mb-14 flex items-center gap-3">
+          <div className="flex gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} className="h-5 w-5 fill-leather-200 text-leather-200" />
+            ))}
+          </div>
+          <span className="font-mono text-lg font-bold text-warm-white">
+            {reviewSummary.average.toFixed(1)}
+          </span>
+          <span className="font-mono text-sm text-ash-dim">
+            perfect rating · {reviewSummary.count} reviews
+          </span>
+        </div>
 
         <motion.div
           initial="hidden"

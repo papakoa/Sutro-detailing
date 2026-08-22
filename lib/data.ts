@@ -125,35 +125,56 @@ export const addons: Addon[] = [
 
 export type Review = {
   name: string;
-  vehicle: string;
+  vehicle?: string;
   quote: string;
   rating: number;
 };
 
-// Placeholder reviews — swap in real customer quotes once collected.
+// Real Google reviews, transcribed verbatim from screenshots — names and
+// quotes must not be altered.
 export const reviews: Review[] = [
   {
-    name: "Jordan M.",
-    vehicle: "Tesla Model 3",
+    name: "Pink Tru",
     quote:
-      "Booked in under a minute and my car looked showroom new by the time they left. Insanely convenient.",
+      "Sutro Detailing did such a great job on my car! They were friendly, easy to communicate with, and paid attention to all the little details. My car looked and felt so clean afterward. I also loved the convenience of having them come to me. I would definitely use them again!",
     rating: 5,
   },
   {
-    name: "Priya S.",
-    vehicle: "BMW X5",
+    name: "Kenneth Jenq",
     quote:
-      "They came right to my building's garage. The interior detail was worth every penny.",
+      "Professional and courteous. Great team making my car interiors spotless. Highly recommended as all the dust and mess my kids made are all gone",
     rating: 5,
   },
   {
-    name: "Marcus T.",
-    vehicle: "Audi Q5",
+    name: "Dave",
     quote:
-      "Professional, on time, and the difference after the Luxury package was night and day.",
+      "These guys detailed my car after I took it on a camping trip. My car was dirty inside and out and by the time they finished working on it, it looked as good and sparkly as the day I first purchased it. I'd definitely hire these guys again in the future.",
+    rating: 5,
+  },
+  {
+    name: "Denise Laugesen",
+    vehicle: "Porsche Cayenne",
+    quote:
+      "I was extremely happy with the level of care they it into my Porsche Cayenne. I highly recommend this team my car never looked so good",
+    rating: 5,
+  },
+  {
+    name: "mats leckie",
+    quote:
+      "Sutro detailing went above and beyond on cleaning my car which was in terrible shape prior to their work. Highly recommend.",
+    rating: 5,
+  },
+  {
+    name: "Dao Chung",
+    quote: "Absolute stellar job by these young men, 10/10 would recommend!!",
     rating: 5,
   },
 ];
+
+export const reviewSummary = {
+  average: 5.0,
+  count: reviews.length,
+};
 
 export type TeamMember = {
   name: string;

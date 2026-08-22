@@ -11,7 +11,8 @@ export function ReviewCard({ review }: { review: Review }) {
       </div>
       <p className="flex-1 text-ash">&ldquo;{review.quote}&rdquo;</p>
       <div className="mt-6 font-mono text-xs uppercase tracking-widest text-ash-dim">
-        {review.name} · {review.vehicle}
+        {review.name}
+        {review.vehicle && ` · ${review.vehicle}`}
       </div>
     </div>
   );
