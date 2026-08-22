@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw photo export (source material, not for web use — some images unredacted)
+/Sutro detailing photos/

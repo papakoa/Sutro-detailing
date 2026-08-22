@@ -37,7 +37,7 @@ export const pricingTiers: PricingTier[] = [
       "Window cleaning (exterior)",
       "Tire shine",
     ],
-    image: "/images/package-classic.jpg",
+    image: "/images/jobs/job-50.jpg",
   },
   {
     id: "premium",
@@ -55,7 +55,7 @@ export const pricingTiers: PricingTier[] = [
       "Interior window cleaning",
       "Door jambs & trim clean",
     ],
-    image: "/images/package-premium.jpg",
+    image: "/images/jobs/job-37.jpg",
   },
   {
     id: "luxury",
@@ -70,7 +70,7 @@ export const pricingTiers: PricingTier[] = [
       "Hand wax coat application",
       "Clay bar",
     ],
-    image: "/images/package-luxury.jpg",
+    image: "/images/jobs/job-48.jpg",
   },
 ];
 
@@ -198,3 +198,58 @@ export const story = {
     "That same door-to-door hustle is still the foundation today, just with a few more tools (and a lot more five-star washes) along the way.",
   ],
 };
+
+export type JobPhoto = {
+  src: string;
+  alt: string;
+};
+
+// Real job photos (Audi SQ5, Ford Bronco, BMW M2 Competition), spot-checked
+// for accurate captions and for visible license plates. An earlier batch of
+// 14 photos from the original export is intentionally excluded — several
+// had unredacted plates.
+export const jobPhotos: JobPhoto[] = [
+  { src: "/images/jobs/job-15.jpg", alt: "Audi SQ5 — rear, after detail" },
+  { src: "/images/jobs/job-16.jpg", alt: "Audi SQ5 — side, before detail" },
+  { src: "/images/jobs/job-17.jpg", alt: "Audi SQ5 — door detail, before" },
+  { src: "/images/jobs/job-18.jpg", alt: "Audi SQ5 — hood, before detail" },
+  { src: "/images/jobs/job-19.jpg", alt: "Audi SQ5 — rear interior, before" },
+  { src: "/images/jobs/job-20.jpg", alt: "Audi SQ5 — rear interior, before" },
+  { src: "/images/jobs/job-21.jpg", alt: "Audi SQ5 — rear interior, after" },
+  { src: "/images/jobs/job-22.jpg", alt: "Audi SQ5 — rear interior detail" },
+  { src: "/images/jobs/job-23.jpg", alt: "Audi SQ5 — front interior, after" },
+  { src: "/images/jobs/job-24.jpg", alt: "Audi SQ5 — console detail" },
+  { src: "/images/jobs/job-25.jpg", alt: "Audi SQ5 — trunk, after detail" },
+  { src: "/images/jobs/job-26.jpg", alt: "Audi SQ5 — side, foam wash" },
+  { src: "/images/jobs/job-27.jpg", alt: "Audi SQ5 — front, foam wash" },
+  { src: "/images/jobs/job-28.jpg", alt: "Audi SQ5 — side, after detail" },
+  { src: "/images/jobs/job-29.jpg", alt: "Audi SQ5 — rear, after detail" },
+  { src: "/images/jobs/job-30.jpg", alt: "Audi SQ5 — front, after detail" },
+  { src: "/images/jobs/job-31.jpg", alt: "Audi SQ5 — hood detail" },
+  { src: "/images/jobs/job-32.jpg", alt: "Audi SQ5 — hood detail" },
+  { src: "/images/jobs/job-33.jpg", alt: "Audi SQ5 — front 3/4, after detail" },
+  { src: "/images/jobs/job-34.jpg", alt: "Ford Bronco — rear, before detail" },
+  { src: "/images/jobs/job-35.jpg", alt: "Ford Bronco — trunk, after detail" },
+  { src: "/images/jobs/job-36.jpg", alt: "Ford Bronco — trunk, before detail" },
+  { src: "/images/jobs/job-37.jpg", alt: "Ford Bronco — front interior, after" },
+  { src: "/images/jobs/job-38.jpg", alt: "Ford Bronco — rear interior, after" },
+  { src: "/images/jobs/job-39.jpg", alt: "Ford Bronco — rear interior, after" },
+  { src: "/images/jobs/job-40.jpg", alt: "Ford Bronco — front interior, after" },
+  { src: "/images/jobs/job-41.jpg", alt: "Ford Bronco — side profile" },
+  { src: "/images/jobs/job-42.jpg", alt: "Ford Bronco — rear 3/4, after detail" },
+  { src: "/images/jobs/job-43.jpg", alt: "Ford Bronco — front interior, before" },
+  { src: "/images/jobs/job-44.jpg", alt: "Ford Bronco — rear interior, before" },
+  { src: "/images/jobs/job-45.jpg", alt: "Ford Bronco — front interior, before" },
+  { src: "/images/jobs/job-46.jpg", alt: "Ford Bronco — rear interior, before" },
+  { src: "/images/jobs/job-47.jpg", alt: "BMW M2 Competition — rear 3/4, after" },
+  { src: "/images/jobs/job-48.jpg", alt: "BMW M2 Competition — rear, after detail" },
+  { src: "/images/jobs/job-49.jpg", alt: "BMW M2 Competition — rear, before detail" },
+  { src: "/images/jobs/job-50.jpg", alt: "BMW M2 Competition — side profile" },
+  { src: "/images/jobs/job-51.jpg", alt: "BMW M2 Competition — trunk, after detail" },
+  { src: "/images/jobs/job-52.jpg", alt: "BMW M2 Competition — front 3/4" },
+  { src: "/images/jobs/job-53.jpg", alt: "BMW M2 Competition — trunk, before detail" },
+  { src: "/images/jobs/job-54.jpg", alt: "BMW M2 Competition — windshield detail" },
+  { src: "/images/jobs/job-55.jpg", alt: "BMW M2 Competition — wheel detail, before" },
+  { src: "/images/jobs/job-56.jpg", alt: "BMW M2 Competition — front 3/4, before" },
+  { src: "/images/jobs/job-57.jpg", alt: "BMW M2 Competition — front, before detail" },
+];

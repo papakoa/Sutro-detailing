@@ -26,10 +26,10 @@ export function PackageCard({
           : "border-graphite-line hover:border-leather-400/50"
       )}
     >
-      {/* tier.image documents the expected filename; wire it in as `src` once the real photo exists in public/images/ */}
       <PlaceholderImage
         alt={`${tier.name} detailing package — example of finished work`}
         aspect="4/3"
+        src={tier.image}
         sizes="(min-width: 768px) 33vw, 100vw"
       />
 

@@ -31,7 +31,8 @@ export function Hero() {
     >
       <motion.div style={{ scale, y }} className="absolute inset-0">
         <PlaceholderImage
-          alt="Freshly detailed car, exterior shot, parked in a San Francisco Bay Area driveway"
+          alt="Audi SQ5 after a full detail, San Francisco street"
+          src="/images/jobs/job-33.jpg"
           priority
           sizes="100vw"
           className="h-full w-full"
