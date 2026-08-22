@@ -16,6 +16,7 @@ export function PackageCard({
 }) {
   const price = size === "sedan" ? tier.sedanPrice : tier.largePrice;
   const duration = size === "sedan" ? tier.sedanDuration : tier.largeDuration;
+  const image = size === "sedan" ? tier.sedanImage : tier.largeImage;
 
   return (
     <div
@@ -26,12 +27,22 @@ export function PackageCard({
           : "border-graphite-line hover:border-leather-400/50"
       )}
     >
-      <PlaceholderImage
-        alt={`${tier.name} detailing package — example of finished work`}
-        aspect="4/3"
-        src={tier.image}
-        sizes="(min-width: 768px) 33vw, 100vw"
-      />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={image}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <PlaceholderImage
+            alt={`${tier.name} detailing package — example of finished work`}
+            aspect="4/3"
+            src={image}
+            sizes="(min-width: 768px) 33vw, 100vw"
+          />
+        </motion.div>
+      </AnimatePresence>
 
       <div className="flex flex-1 flex-col p-8">
         <div

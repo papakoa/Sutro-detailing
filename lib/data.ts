@@ -19,7 +19,8 @@ export type PricingTier = {
   largeDuration: string;
   features: string[];
   featured?: boolean;
-  image: string;
+  sedanImage: string;
+  largeImage: string;
 };
 
 export const pricingTiers: PricingTier[] = [
@@ -37,7 +38,8 @@ export const pricingTiers: PricingTier[] = [
       "Window cleaning (exterior)",
       "Tire shine",
     ],
-    image: "/images/jobs/job-50.jpg",
+    sedanImage: "/images/jobs/job-01.jpg",
+    largeImage: "/images/jobs/job-08.jpg",
   },
   {
     id: "premium",
@@ -55,7 +57,8 @@ export const pricingTiers: PricingTier[] = [
       "Interior window cleaning",
       "Door jambs & trim clean",
     ],
-    image: "/images/jobs/job-37.jpg",
+    sedanImage: "/images/jobs/job-09.jpg",
+    largeImage: "/images/jobs/job-14.jpg",
   },
   {
     id: "luxury",
@@ -70,7 +73,8 @@ export const pricingTiers: PricingTier[] = [
       "Hand wax coat application",
       "Clay bar",
     ],
-    image: "/images/jobs/job-48.jpg",
+    sedanImage: "/images/jobs/job-07.jpg",
+    largeImage: "/images/jobs/porsche-macan-luxury.png",
   },
 ];
 
