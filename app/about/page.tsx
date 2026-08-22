@@ -7,7 +7,7 @@ import { GallerySection } from "@/components/about/GallerySection";
 export const metadata: Metadata = {
   title: "About — Sutro Detailing",
   description:
-    "Meet the team behind Sutro Detailing and see more of our work in San Francisco.",
+    "Meet the team behind Sutro Detailing and see more of our work in the San Francisco Bay Area.",
 };
 
 export default function About() {

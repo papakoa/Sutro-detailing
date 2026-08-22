@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Plus, X } from "lucide-react";
 import clsx from "clsx";
 import { addons, contact, services, type Addon, type ServiceOption } from "@/lib/data";
+import { DatePicker } from "./DatePicker";
 
 type Status = "idle" | "submitting" | "success" | "error";
 type VehicleSize = "sedan" | "large";
@@ -33,6 +34,11 @@ function createCar(uid: string): CarBooking {
   };
 }
 
+type DateTimeEntry = {
+  uid: string;
+  date: string;
+};
+
 function carSubtotal(car: CarBooking): number {
   const serviceTotal = services.reduce((sum, s) => {
     if (!car.services[s.id]) return sum;
@@ -53,7 +59,12 @@ const labelClass = "font-mono text-xs uppercase tracking-wide text-ash-dim";
 export function BookingForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const nextCarNumber = useRef(1);
+  const nextDateNumber = useRef(1);
   const [cars, setCars] = useState<CarBooking[]>([createCar("car-0")]);
+  const [dateEntries, setDateEntries] = useState<DateTimeEntry[]>([
+    { uid: "dt-0", date: "" },
+  ]);
+  const [dateError, setDateError] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
 
   const grandTotal = cars.reduce((sum, car) => sum + carSubtotal(car), 0);
@@ -89,9 +100,28 @@ export function BookingForm() {
     );
   }
 
+  function addDateEntry() {
+    const uid = `dt-${nextDateNumber.current++}`;
+    setDateEntries((prev) => [...prev, { uid, date: "" }]);
+  }
+
+  function removeDateEntry(uid: string) {
+    setDateEntries((prev) => (prev.length > 1 ? prev.filter((d) => d.uid !== uid) : prev));
+  }
+
+  function updateDateEntry(uid: string, date: string) {
+    setDateEntries((prev) => prev.map((d) => (d.uid === uid ? { ...d, date } : d)));
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!formRef.current) return;
+
+    if (!dateEntries[0].date) {
+      setDateError(true);
+      return;
+    }
+    setDateError(false);
     setStatus("submitting");
 
     const data = new FormData(formRef.current);
@@ -105,7 +135,9 @@ export function BookingForm() {
         setStatus("success");
         formRef.current.reset();
         nextCarNumber.current = 1;
+        nextDateNumber.current = 1;
         setCars([createCar("car-0")]);
+        setDateEntries([{ uid: "dt-0", date: "" }]);
       } else {
         setStatus("error");
       }
@@ -208,31 +240,24 @@ export function BookingForm() {
                       <label
                         key={service.id}
                         className={clsx(
-                          "flex cursor-pointer flex-col gap-1 rounded-md border px-3 py-2.5 text-sm transition-colors",
+                          "flex cursor-pointer items-center justify-between gap-2 rounded-md border px-3 py-2.5 text-sm transition-colors",
                           checked
                             ? "border-leather-300 bg-leather-500/15 text-warm-white"
                             : "border-graphite-line text-ash hover:border-leather-400/50"
                         )}
                       >
-                        <span className="flex items-center justify-between gap-2">
-                          <span className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              name={`car_${index + 1}_${service.id}`}
-                              value={`${service.name} — $${price}`}
-                              checked={checked}
-                              onChange={() => toggleService(car.uid, service.id)}
-                              className="h-4 w-4"
-                            />
-                            {service.name}
-                          </span>
-                          <span className="font-mono text-xs text-ash-dim">
-                            ${price}
-                          </span>
+                        <span className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            name={`car_${index + 1}_${service.id}`}
+                            value={`${service.name} — $${price}`}
+                            checked={checked}
+                            onChange={() => toggleService(car.uid, service.id)}
+                            className="h-4 w-4"
+                          />
+                          {service.name}
                         </span>
-                        <span className="pl-6 text-xs text-ash-dim">
-                          {service.blurb}
-                        </span>
+                        <span className="font-mono text-xs text-ash-dim">${price}</span>
                       </label>
                     );
                   })}
@@ -285,19 +310,78 @@ export function BookingForm() {
         <Plus className="h-4 w-4" /> Add another car
       </button>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="date" className={labelClass}>
-            Preferred date
-          </label>
-          <input id="date" name="date" type="date" className={inputClass} />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="time" className={labelClass}>
-            Preferred time
-          </label>
-          <input id="time" name="time" type="time" className={inputClass} />
-        </div>
+      <div className="flex flex-col gap-3">
+        <span className={labelClass}>
+          Preferred date &amp; time{" "}
+          <span className="normal-case text-ash-dim/70">
+            (add more if you&apos;re flexible)
+          </span>
+        </span>
+
+        <AnimatePresence initial={false}>
+          {dateEntries.map((entry, index) => (
+            <motion.div
+              key={entry.uid}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div className="flex items-end gap-3">
+                <div className="grid flex-1 gap-3 sm:grid-cols-2">
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-mono text-[10px] uppercase tracking-wide text-ash-dim/70">
+                      Date{dateEntries.length > 1 ? ` — option ${index + 1}` : ""}
+                    </span>
+                    <DatePicker
+                      name={`preferred_date_${index + 1}`}
+                      value={entry.date}
+                      onChange={(date) => {
+                        updateDateEntry(entry.uid, date);
+                        if (index === 0 && date) setDateError(false);
+                      }}
+                      invalid={index === 0 && dateError}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-mono text-[10px] uppercase tracking-wide text-ash-dim/70">
+                      Time
+                    </span>
+                    <input
+                      name={`preferred_time_${index + 1}`}
+                      type="time"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+                {dateEntries.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeDateEntry(entry.uid)}
+                    aria-label={`Remove date option ${index + 1}`}
+                    className="mb-2.5 text-ash-dim transition-colors hover:text-leather-200"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+
+        {dateError && (
+          <p className="text-xs text-red-400">
+            Please select at least one preferred date.
+          </p>
+        )}
+
+        <button
+          type="button"
+          onClick={addDateEntry}
+          className="flex items-center justify-center gap-2 rounded-md border border-dashed border-leather-400/50 px-4 py-2.5 font-mono text-xs uppercase tracking-widest text-ash-dim transition-colors hover:border-leather-300 hover:text-warm-white"
+        >
+          <Plus className="h-4 w-4" /> Add another date/time
+        </button>
       </div>
 
       <div className="flex flex-col gap-1.5">

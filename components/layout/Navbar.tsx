@@ -23,7 +23,7 @@ export function Navbar() {
   }, []);
 
   const links = [
-    { label: "Packages", href: "/packages" },
+    { label: "Price Breakdown", href: "/price-breakdown" },
     { label: "Reviews", href: "/reviews" },
     { label: "About", href: "/about" },
   ];

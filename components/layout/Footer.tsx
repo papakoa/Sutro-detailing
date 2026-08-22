@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { AtSign, Mail, Phone } from "lucide-react";
 import { contact } from "@/lib/data";
 
@@ -11,7 +10,8 @@ export function Footer() {
             Sutro Detailing
           </div>
           <p className="mt-3 max-w-xs text-sm">
-            Mobile detailing that comes to you, anywhere in San Francisco.
+            Mobile detailing that comes to you — San Francisco, Marin, San
+            Mateo, and nearby areas.
           </p>
         </div>
 
@@ -32,40 +32,11 @@ export function Footer() {
             href={contact.instagramUrl}
             target="_blank"
             rel="noreferrer"
+            aria-label="Sutro Detailing on Instagram"
             className="flex items-center gap-2 transition-colors hover:text-warm-white"
           >
-            <AtSign className="h-4 w-4" /> {contact.instagramHandle}
+            <AtSign className="h-4 w-4" />
           </a>
-        </div>
-
-        <div className="flex gap-6 font-mono text-xs uppercase tracking-widest">
-          <Link href="/" className="transition-colors hover:text-warm-white">
-            Home
-          </Link>
-          <Link
-            href="/packages"
-            className="transition-colors hover:text-warm-white"
-          >
-            Packages
-          </Link>
-          <Link
-            href="/reviews"
-            className="transition-colors hover:text-warm-white"
-          >
-            Reviews
-          </Link>
-          <Link
-            href="/about"
-            className="transition-colors hover:text-warm-white"
-          >
-            About
-          </Link>
-          <Link
-            href="/#booking"
-            className="transition-colors hover:text-warm-white"
-          >
-            Book now
-          </Link>
         </div>
       </div>
 

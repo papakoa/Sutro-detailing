@@ -5,7 +5,7 @@ export const contact = {
   // Handle unconfirmed — the old site had no Instagram link. Swap in the real one.
   instagramHandle: "@sutrodetailing",
   instagramUrl: "https://instagram.com/sutrodetailing",
-  area: "San Francisco, CA",
+  area: "San Francisco Bay Area",
   formspreeEndpoint: "https://formspree.io/f/mrenbywd",
 };
 
@@ -77,50 +77,19 @@ export const pricingTiers: PricingTier[] = [
 export type ServiceOption = {
   id: "exterior" | "interior" | "wax";
   name: string;
-  blurb: string;
-  features: string[];
   sedanPrice: number;
   largePrice: number;
 };
 
 // À la carte services for the booking form — priced so any one, two, or all
 // three add up consistently with the package prices above (all three =
-// the Luxury package price, for either vehicle size).
+// the Luxury package price, for either vehicle size). What each service
+// includes is documented on the Price Breakdown page (pricingTiers below),
+// not repeated here in the booking form.
 export const services: ServiceOption[] = [
-  {
-    id: "exterior",
-    name: "Exterior",
-    blurb: "Wash, wheels, tires, windows",
-    features: [
-      "Exterior hand wash & dry",
-      "Wheel & tire cleaning",
-      "Window cleaning (exterior)",
-      "Tire shine",
-    ],
-    sedanPrice: 75,
-    largePrice: 90,
-  },
-  {
-    id: "interior",
-    name: "Interior",
-    blurb: "Vacuum, dash, interior windows, jambs",
-    features: [
-      "Full interior vacuum & wipe-down",
-      "Dashboard & console detailing",
-      "Interior window cleaning",
-      "Door jambs & trim clean",
-    ],
-    sedanPrice: 75,
-    largePrice: 90,
-  },
-  {
-    id: "wax",
-    name: "Wax Coat",
-    blurb: "Hand wax + clay bar",
-    features: ["Hand wax coat application", "Clay bar"],
-    sedanPrice: 75,
-    largePrice: 75,
-  },
+  { id: "exterior", name: "Exterior", sedanPrice: 75, largePrice: 90 },
+  { id: "interior", name: "Interior", sedanPrice: 75, largePrice: 90 },
+  { id: "wax", name: "Wax Coat", sedanPrice: 75, largePrice: 75 },
 ];
 
 export type Addon = {

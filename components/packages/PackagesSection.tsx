@@ -16,7 +16,7 @@ export function PackagesSection() {
     <section className="px-6 py-28 md:px-[6vw] md:py-32">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          title="Services & pricing"
+          title="Price breakdown"
           tag="Choose your level of clean"
         />
 

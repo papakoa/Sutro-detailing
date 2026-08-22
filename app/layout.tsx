@@ -23,9 +23,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Sutro Detailing — Mobile Car Detailing, San Francisco",
+  title: "Sutro Detailing — Mobile Car Detailing, San Francisco Bay Area",
   description:
-    "We come to you, anywhere in San Francisco. Book a detail in under a minute.",
+    "We come to you, anywhere in the San Francisco Bay Area. Book a detail in under a minute.",
 };
 
 export default function RootLayout({

@@ -31,7 +31,7 @@ export function Hero() {
     >
       <motion.div style={{ scale, y }} className="absolute inset-0">
         <PlaceholderImage
-          alt="Freshly detailed car, exterior shot, parked in a San Francisco driveway"
+          alt="Freshly detailed car, exterior shot, parked in a San Francisco Bay Area driveway"
           priority
           sizes="100vw"
           className="h-full w-full"
@@ -56,7 +56,7 @@ export function Hero() {
         </motion.h1>
         <div className="mt-6 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.3em] text-ash">
           <span className="h-px w-8 bg-leather-300" />
-          Mobile detailing · San Francisco
+          Mobile detailing · San Francisco Bay Area
           <span className="h-px w-8 bg-leather-300" />
         </div>
       </motion.div>
