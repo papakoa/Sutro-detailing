@@ -27,7 +27,7 @@ export function ReviewsSection() {
             {reviewSummary.average.toFixed(1)}
           </span>
           <span className="font-mono text-sm text-ash-dim">
-            perfect rating · {reviewSummary.count} reviews
+            perfect rating on Google
           </span>
         </div>
 

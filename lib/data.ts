@@ -169,11 +169,28 @@ export const reviews: Review[] = [
     quote: "Absolute stellar job by these young men, 10/10 would recommend!!",
     rating: 5,
   },
+  {
+    name: "Pamela Chan",
+    quote:
+      "Great car wash both inside and out! I've never seen my car so shiny. Koa and Bradley were very professional and did a fantastic job. Super convenient that they traveled to me and washed my car right in my driveway.",
+    rating: 5,
+  },
+  {
+    name: "Edgar Ho",
+    quote:
+      "Easy to schedule, great customer service and very thorough work! Will definitely book them again!",
+    rating: 5,
+  },
+  {
+    name: "Tony Liu",
+    quote:
+      "Brad and Koa were great. Very punctual. Extremely detailed and thorough in their work. Highly recommend.",
+    rating: 5,
+  },
 ];
 
 export const reviewSummary = {
   average: 5.0,
-  count: reviews.length,
 };
 
 export type TeamMember = {
@@ -216,13 +233,10 @@ export const benefits = [
   },
 ];
 
-// Brief origin-story placeholder, loosely inspired by the door-to-door hustle
-// in the founders' own notes — personalize with the real story.
 export const story = {
   heading: "How Sutro Detailing started",
   paragraphs: [
-    "Sutro Detailing started the way most small businesses do — going door to door around San Francisco, one car and one referral at a time.",
-    "Koa and Brad built the business on a simple idea: detailing should be effortless for the customer. No shop to drive to, no waiting around — just a showroom-clean car wherever you already are.",
-    "That same door-to-door hustle is still the foundation today, just with a few more tools (and a lot more five-star washes) along the way.",
+    "Sutro Detailing started with two high school students, a bucket, some sponges, and a hose — going door to door for neighbors willing to give them a shot. Years and hundreds of cars later, we've refined that hustle into a craft: every detail is built to make your car look like it just rolled off the dealership lot.",
+    "Along the way, we built the business around one simple idea — detailing should be effortless for the customer. No shop to drive to. No waiting around. We bring showroom-clean straight to your driveway.",
   ],
 };

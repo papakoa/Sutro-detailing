@@ -24,6 +24,7 @@ export function Navbar() {
 
   const links = [
     { label: "Price Breakdown", href: "/price-breakdown" },
+    { label: "Transformations", href: "/transformations" },
     { label: "Reviews", href: "/reviews" },
     { label: "About", href: "/about" },
   ];
@@ -38,7 +39,7 @@ export function Navbar() {
           : "border-graphite-line/60 bg-graphite/90 py-5"
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 md:px-[6vw]">
+      <div className="flex items-center justify-between px-6 md:px-10">
         <Link
           href="/"
           className="font-heading text-lg uppercase tracking-wide text-warm-white"

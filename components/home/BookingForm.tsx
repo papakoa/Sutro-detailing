@@ -478,6 +478,10 @@ export function BookingForm() {
         </div>
       </div>
 
+      <p className="text-center font-mono text-xs uppercase tracking-wide text-leather-200">
+        We accept cash, checks, Venmo or Zelle
+      </p>
+
       <button
         type="submit"
         disabled={status === "submitting"}
