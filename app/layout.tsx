@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Oswald } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { MetaPixel } from "@/components/shared/MetaPixel";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -39,6 +40,7 @@ export default function RootLayout({
       className={`${oswald.variable} ${inter.variable} ${jetbrainsMono.variable} h-full`}
     >
       <body className="flex min-h-full flex-col font-sans antialiased">
+        <MetaPixel />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

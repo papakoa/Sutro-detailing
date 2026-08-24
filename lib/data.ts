@@ -7,6 +7,7 @@ export const contact = {
   instagramUrl: "https://instagram.com/sutrodetailing",
   area: "San Francisco Bay Area",
   formspreeEndpoint: "https://formspree.io/f/mrenbywd",
+  metaPixelId: "1046746721548120",
 };
 
 export type PricingTier = {
